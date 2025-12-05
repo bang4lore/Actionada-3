@@ -48,7 +48,6 @@ preprocessor = ColumnTransformer(
     ]
 )
 
-#ÌÅÒÎÄ 1: class_weight = "balanced"
 
 model_weighted = Pipeline(steps=[
     ("preprocess", preprocessor),
@@ -69,7 +68,6 @@ rare_10 = list(class_counts.tail(10).index)
 rare_f1_w = {cls: report_w.get(cls, {}).get("f1-score", 0.0) for cls in rare_10}
 print("F1 ïî 10 ðåäêèì êëàññàì (class_weight):", rare_f1_w)
 
-#ÌÅÒÎÄ 2: SMOTE (oversampling)
 
 from imblearn.pipeline import Pipeline as ImbPipeline
 
@@ -88,7 +86,6 @@ report_s = classification_report(y_test, y_pred_s, output_dict=True)
 rare_f1_s = {cls: report_s.get(cls, {}).get("f1-score", 0.0) for cls in rare_10}
 print("F1 ïî 10 ðåäêèì êëàññàì (SMOTE):", rare_f1_s)
 
-#ÌÅÒÎÄ 3: èåðàðõè÷åñêîå âçâåøèâàíèå 
 
 cat_counts = df["Category"].value_counts()
 cat_weights = 1.0 / cat_counts
@@ -116,3 +113,4 @@ print("Macro F1 (hierarchical):", macro_f1_h)
 report_h = classification_report(y_test, y_pred_h, output_dict=True)
 rare_f1_h = {cls: report_h.get(cls, {}).get("f1-score", 0.0) for cls in rare_10}
 print("F1 ïî 10 ðåäêèì êëàññàì (hierarchical):", rare_f1_h)
+
