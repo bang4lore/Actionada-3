@@ -19,8 +19,8 @@ total = len(df)
 rare_threshold = 0.05 * total
 rare_classes = class_counts[class_counts <= rare_threshold].index.tolist()
 
-print("Âñåãî êëàññîâ:", df["target"].nunique())
-print("5% íàèìåíåå ïðåäñòàâëåííûå êëàññû (ïî ÷èñëó òðàíçàêöèé):")
+print("Ã‚Ã±Ã¥Ã£Ã® ÃªÃ«Ã Ã±Ã±Ã®Ã¢:", df["target"].nunique())
+print("5% Ã­Ã Ã¨Ã¬Ã¥Ã­Ã¥Ã¥ Ã¯Ã°Ã¥Ã¤Ã±Ã²Ã Ã¢Ã«Ã¥Ã­Ã­Ã»Ã¥ ÃªÃ«Ã Ã±Ã±Ã» (Ã¯Ã® Ã·Ã¨Ã±Ã«Ã³ Ã²Ã°Ã Ã­Ã§Ã ÃªÃ¶Ã¨Ã©):")
 print(class_counts.tail(10)) 
 
 df["Date"] = pd.to_datetime(df["Date"])
@@ -48,7 +48,7 @@ preprocessor = ColumnTransformer(
     ]
 )
 
-#ÌÅÒÎÄ 1: class_weight = "balanced"
+#ÃŒÃ…Ã’ÃŽÃ„ 1: class_weight = "balanced"
 
 model_weighted = Pipeline(steps=[
     ("preprocess", preprocessor),
@@ -67,9 +67,9 @@ print("Macro F1 (class_weight):", macro_f1_w)
 report_w = classification_report(y_test, y_pred_w, output_dict=True)
 rare_10 = list(class_counts.tail(10).index)
 rare_f1_w = {cls: report_w.get(cls, {}).get("f1-score", 0.0) for cls in rare_10}
-print("F1 ïî 10 ðåäêèì êëàññàì (class_weight):", rare_f1_w)
+print("F1 Ã¯Ã® 10 Ã°Ã¥Ã¤ÃªÃ¨Ã¬ ÃªÃ«Ã Ã±Ã±Ã Ã¬ (class_weight):", rare_f1_w)
 
-#ÌÅÒÎÄ 2: SMOTE (oversampling)
+#ÃŒÃ…Ã’ÃŽÃ„ 2: SMOTE (oversampling)
 
 from imblearn.pipeline import Pipeline as ImbPipeline
 
@@ -86,9 +86,9 @@ print("Macro F1 (SMOTE):", macro_f1_s)
 
 report_s = classification_report(y_test, y_pred_s, output_dict=True)
 rare_f1_s = {cls: report_s.get(cls, {}).get("f1-score", 0.0) for cls in rare_10}
-print("F1 ïî 10 ðåäêèì êëàññàì (SMOTE):", rare_f1_s)
+print("F1 Ã¯Ã® 10 Ã°Ã¥Ã¤ÃªÃ¨Ã¬ ÃªÃ«Ã Ã±Ã±Ã Ã¬ (SMOTE):", rare_f1_s)
 
-#ÌÅÒÎÄ 3: èåðàðõè÷åñêîå âçâåøèâàíèå 
+#ÃŒÃ…Ã’ÃŽÃ„ 3: Ã¨Ã¥Ã°Ã Ã°ÃµÃ¨Ã·Ã¥Ã±ÃªÃ®Ã¥ Ã¢Ã§Ã¢Ã¥Ã¸Ã¨Ã¢Ã Ã­Ã¨Ã¥ 
 
 cat_counts = df["Category"].value_counts()
 cat_weights = 1.0 / cat_counts
@@ -115,4 +115,4 @@ print("Macro F1 (hierarchical):", macro_f1_h)
 
 report_h = classification_report(y_test, y_pred_h, output_dict=True)
 rare_f1_h = {cls: report_h.get(cls, {}).get("f1-score", 0.0) for cls in rare_10}
-print("F1 ïî 10 ðåäêèì êëàññàì (hierarchical):", rare_f1_h)
+print("F1 Ã¯Ã® 10 Ã°Ã¥Ã¤ÃªÃ¨Ã¬ ÃªÃ«Ã Ã±Ã±Ã Ã¬ (hierarchical):", rare_f1_h)
